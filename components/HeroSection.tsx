@@ -27,8 +27,8 @@ export default function HeroSection() {
     { type: 'command', text: '$ echo $SOCIAL_LINKS', delay: 200 },
     { 
       type: 'output', 
-      text: 'LinkedIn: linkedin.com/in/ronak-sarvaya-2a331a223/', 
-      link: 'https://www.linkedin.com/in/ronak-sarvaya-2a331a223/',
+      text: 'LinkedIn: linkedin.com/in/ronak-sarvaya', 
+      link: 'https://www.linkedin.com/in/ronak-sarvaya',
       delay: 50 
     },
     { 
