@@ -66,21 +66,21 @@ POV- A die hard Marvel Fan`;
   }, [isInView]);
 
   return (
-    <section ref={sectionRef} className="about opacity-0 py-16 px-5" id="about">
-      <div className="flex gap-8 items-center max-w-6xl mx-auto">
+    <section ref={sectionRef} className="about opacity-0 py-16 px-4 sm:px-6 lg:px-8" id="about">
+      <div className="flex flex-col lg:flex-row gap-8 items-center max-w-6xl mx-auto">
         {/* Left Side - Spider-Man Image */}
-        <div className="about-left">
+        <div className="about-left w-full lg:w-auto flex justify-center lg:block">
           <Image
             src="/spidy.png"
             alt="Spider-Man"
             width={300}
             height={300}
-            className="object-contain rounded-2xl"
+            className="object-contain rounded-2xl w-full max-w-[250px] sm:max-w-[300px] h-auto"
           />
         </div>
         
         {/* Right Side - Terminal About */}
-        <div className="about-right flex-1">
+        <div className="about-right flex-1 w-full">
           <div className="bg-[#1e1e1e] rounded-lg shadow-2xl overflow-hidden border border-gray-700">
             {/* Terminal Header */}
             <div className="bg-[#323233] px-4 py-3 flex items-center gap-2">
@@ -93,14 +93,14 @@ POV- A die hard Marvel Fan`;
             </div>
             
             {/* Terminal Content */}
-            <div className="p-6 font-mono text-sm leading-relaxed min-h-[300px] text-gray-300">
+            <div className="p-4 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed min-h-[300px] text-gray-300">
               <div className="mb-4">
                 <span className="text-[#4EC9B0]">$ cat about.txt</span>
               </div>
               <div className="mb-4">
                 <span className="text-[#C586C0]">## About Me</span>
               </div>
-              <div className="whitespace-pre-wrap">
+              <div className="whitespace-pre-wrap break-words">
                 {displayedText}
                 {showCursor && (
                   <span className="inline-block w-2 h-4 bg-[#00ff00] ml-1 animate-pulse"></span>

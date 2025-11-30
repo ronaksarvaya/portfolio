@@ -125,10 +125,10 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="home" className="home min-h-screen flex items-center justify-center px-8 py-20">
-      <div className="flex gap-16 items-center max-w-7xl w-full">
+    <section id="home" className="home min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center max-w-7xl w-full">
         {/* Left Side - Terminal */}
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           <div className="bg-[#1e1e1e] rounded-lg shadow-2xl overflow-hidden border border-gray-700">
             {/* Terminal Header */}
             <div className="bg-[#323233] px-4 py-3 flex items-center gap-2">
@@ -141,7 +141,7 @@ export default function HeroSection() {
             </div>
             
             {/* Terminal Content */}
-            <div className="p-6 font-mono text-sm leading-relaxed min-h-[400px]">
+            <div className="p-4 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed min-h-[300px] sm:min-h-[400px]">
               {/* Completed lines */}
               {lines.map((line, index) => renderLine(line, index))}
               
@@ -167,22 +167,17 @@ export default function HeroSection() {
         </div>
 
         {/* Right Side - Image */}
-        <div className="flex-shrink-0">
-          <div className="relative">
+        <div className="flex-shrink-0 w-full lg:w-auto flex justify-center">
+          <div className="relative w-full max-w-[300px] sm:max-w-[350px] lg:max-w-[400px]">
             <div className="absolute inset-0 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-2xl blur-2xl opacity-30"></div>
             <Image
               src="/ronakimg.png"
               alt="Ronak Sarvaya"
               width={400}
               height={400}
-              className="relative rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300"
+              className="relative rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 w-full h-auto"
               priority
             />
-          </div>
-          <div className="mt-6 text-center">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
-             {/* something to write beklow my photo */}
-            </h1>
           </div>
         </div>
       </div>
