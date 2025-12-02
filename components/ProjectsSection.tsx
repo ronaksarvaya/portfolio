@@ -24,7 +24,7 @@ export default function ProjectsSection() {
       description: 'Digital voting platform that lets users host secure voting sessions with real-time results',
       url: 'https://vote-r.vercel.app',
       github: 'https://github.com/ronaksarvaya/voteR',
-      image: '/VoteR.png',
+      image: '/Voter.png',
       technologies: ['React', 'MongoDB', 'Tailwind CSS', 'Node.js', 'Express.js']
     },
     {
