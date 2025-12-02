@@ -20,12 +20,12 @@ export default function ProjectsSection() {
   const projects: Project[] = [
     {
       id: 1,
-      title: 'The BR Project',
-      description: 'A modern web application showcasing innovative design and functionality. Built with cutting-edge technologies for optimal performance.',
-      url: 'https://ronaksarvaya.github.io/The-BR-Project/',
-      github: 'https://github.com/ronaksarvaya/The-BR-Project',
-      image: '/Project1.png',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js']
+      title: 'Vote-R',
+      description: 'Digital voting platform that lets users host secure voting sessions with real-time results',
+      url: 'https://vote-r.vercel.app',
+      github: 'https://github.com/ronaksarvaya/voteR',
+      image: '/VoteR.png',
+      technologies: ['React', 'MongoDB', 'Tailwind CSS', 'Node.js', 'Express.js']
     },
     {
       id: 2,
