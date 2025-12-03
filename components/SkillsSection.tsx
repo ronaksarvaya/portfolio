@@ -1,29 +1,52 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
+interface Skill {
+  _id: string;
+  name: string;
+  category: string;
+  proficiency?: number;
+  icon?: string;
+}
+
 export default function SkillsSection() {
-  const skills = {
-    frontend: [
-      { name: 'HTML5' },
-      { name: 'CSS3' },
-      { name: 'JavaScript' },
-      { name: 'React' },
-      { name: 'Next.js' },
-      { name: 'Tailwind' },
-    ],
-    backend: [
-      { name: 'Node.js' },
-      { name: 'Express' },
-      { name: 'Python' },
-    ],
-    languages: [
-      { name: 'C' },
-      { name: 'C++' },
-      { name: 'Java' },
-    ],
-    database: [
-      { name: 'MySQL' },
-      { name: 'SQL' },
-    ],
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch('/api/skills');
+        const data = await response.json();
+        setSkills(data);
+      } catch (error) {
+        console.error('Failed to fetch skills:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSkills();
+  }, []);
+
+  // Group skills by category
+  const groupedSkills = skills.reduce((acc, skill) => {
+    const category = skill.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(skill);
+    return acc;
+  }, {} as Record<string, Skill[]>);
+
+  // Define category order/colors if needed, or just iterate
+  const categoryColors: Record<string, string> = {
+    'Frontend': '#667eea',
+    'Backend': '#764ba2',
+    'Tools': '#667eea',
+    'Other': '#764ba2',
+    // Fallbacks
   };
 
   return (
@@ -40,65 +63,35 @@ export default function SkillsSection() {
             </h2>
           </div>
 
-          {/* Frontend */}
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">Frontend</h3>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {skills.frontend.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 border-[#667eea] text-[#667eea] bg-transparent hover:bg-[#667eea] hover:text-white transition-all duration-300 cursor-pointer font-medium"
-                >
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Backend */}
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">Backend</h3>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {skills.backend.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 border-[#764ba2] text-[#764ba2] bg-transparent hover:bg-[#764ba2] hover:text-white transition-all duration-300 cursor-pointer font-medium"
-                >
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Programming Languages */}
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">Programming Languages</h3>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {skills.languages.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 border-[#667eea] text-[#667eea] bg-transparent hover:bg-[#667eea] hover:text-white transition-all duration-300 cursor-pointer font-medium"
-                >
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Database */}
-          <div>
-            <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">Database</h3>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {skills.database.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 border-[#764ba2] text-[#764ba2] bg-transparent hover:bg-[#764ba2] hover:text-white transition-all duration-300 cursor-pointer font-medium"
-                >
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
+          {loading ? (
+            <div className="text-center text-gray-400">Loading skills...</div>
+          ) : (
+            Object.entries(groupedSkills).map(([category, categorySkills]) => (
+              <div key={category} className="mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">{category}</h3>
+                <div className="flex flex-wrap gap-2 sm:gap-3">
+                  {categorySkills.map((skill) => (
+                    <span
+                      key={skill._id}
+                      className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 bg-transparent hover:text-white transition-all duration-300 cursor-pointer font-medium`}
+                      style={{
+                        borderColor: categoryColors[category] || '#667eea',
+                        color: categoryColors[category] || '#667eea',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = categoryColors[category] || '#667eea';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

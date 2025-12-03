@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Project {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   url: string;
@@ -14,38 +14,27 @@ interface Project {
 }
 
 export default function ProjectsSection() {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   // Data object as placeholder - you can easily update this
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'Vote-R',
-      description: 'Digital voting platform that lets users host secure voting sessions with real-time results',
-      url: 'https://vote-r.vercel.app',
-      github: 'https://github.com/ronaksarvaya/voteR',
-      image: '/Voter.png',
-      technologies: ['React', 'MongoDB', 'Tailwind CSS', 'Node.js', 'Express.js']
-    },
-    {
-      id: 2,
-      title: 'I Code This',
-      description: 'An interactive coding platform designed to enhance learning experiences. Features real-time collaboration and code execution.',
-      url: 'https://ronaksarvaya.github.io/i_code_this/',
-      github: 'https://github.com/ronaksarvaya/i_code_this',
-      image: '/Project2.png',
-      technologies: ['JavaScript', 'HTML', 'CSS', 'Node.js']
-    },
-    {
-      id: 3,
-      title: 'DentTech',
-      description: 'A comprehensive dental management system streamlining clinic operations. Includes appointment scheduling and patient records.',
-      url: 'https://ronaksarvaya.github.io/DentTech/',
-      github: 'https://github.com/ronaksarvaya/DentTech',
-      image: '/Project3.png',
-      technologies: ['React', 'Firebase', 'Material-UI', 'Express']
-    }
-  ];
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects');
+        const data = await response.json();
+        setProjects(data);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   return (
     <section className="py-20 px-5 bg-[#0a0a0a]" id="projects">
@@ -64,16 +53,16 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <div
-              key={project.id}
+              key={project._id}
               className="group relative"
-              onMouseEnter={() => setHoveredId(project.id)}
+              onMouseEnter={() => setHoveredId(project._id)}
               onMouseLeave={() => setHoveredId(null)}
             >
               {/* Card Container */}
               <div className="relative bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 hover:border-[#667eea] transition-all duration-300 h-full flex flex-col">
                 {/* Gradient Overlay on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#667eea]/10 to-[#764ba2]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"></div>
-                
+
                 {/* Project Image */}
                 <div className="relative h-48 overflow-hidden">
                   <Image
@@ -142,7 +131,7 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Glow Effect on Hover */}
-                {hoveredId === project.id && (
+                {hoveredId === project._id && (
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-500 -z-10"></div>
                 )}
               </div>
