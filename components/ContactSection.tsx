@@ -117,7 +117,7 @@ export default function ContactSection() {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error for this field when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({
@@ -130,7 +130,7 @@ export default function ContactSection() {
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!validateForm()) {
       return;
@@ -168,7 +168,7 @@ export default function ContactSection() {
       if (result.status === 200) {
         setSubmitStatus('success');
         setStatusMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!');
-        
+
         // Reset form
         setFormData({
           from_name: '',
@@ -221,9 +221,8 @@ export default function ContactSection() {
                   name="from_name"
                   value={formData.from_name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${
-                    errors.from_name ? 'border-red-500' : 'border-gray-800'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
+                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${errors.from_name ? 'border-red-500' : 'border-gray-800'
+                    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
                   placeholder="John Doe"
                 />
                 {errors.from_name && (
@@ -242,9 +241,8 @@ export default function ContactSection() {
                   name="from_email"
                   value={formData.from_email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${
-                    errors.from_email ? 'border-red-500' : 'border-gray-800'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
+                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${errors.from_email ? 'border-red-500' : 'border-gray-800'
+                    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
                   placeholder="john@example.com"
                 />
                 {errors.from_email && (
@@ -263,9 +261,8 @@ export default function ContactSection() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${
-                    errors.subject ? 'border-red-500' : 'border-gray-800'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
+                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${errors.subject ? 'border-red-500' : 'border-gray-800'
+                    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300`}
                   placeholder="Project Inquiry"
                 />
                 {errors.subject && (
@@ -284,9 +281,8 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={6}
-                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${
-                    errors.message ? 'border-red-500' : 'border-gray-800'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300 resize-none`}
+                  className={`w-full px-4 py-3 bg-[#1a1a1a] border ${errors.message ? 'border-red-500' : 'border-gray-800'
+                    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#667eea] transition-colors duration-300 resize-none`}
                   placeholder="Tell me about your project..."
                 />
                 {errors.message && (
@@ -298,11 +294,10 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full px-8 py-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-lg font-medium transition-all duration-300 ${
-                  isSubmitting
+                className={`w-full px-8 py-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-lg font-medium transition-all duration-300 ${isSubmitting
                     ? 'opacity-70 cursor-not-allowed'
                     : 'hover:shadow-lg hover:shadow-[#667eea]/50 hover:scale-105'
-                }`}
+                  }`}
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -368,7 +363,7 @@ export default function ContactSection() {
                     Let's Create Something Amazing!
                   </h3>
                   <p className="text-gray-400 leading-relaxed">
-                    Do you speak Martian? It's ok if you don't, I speak English too. 
+                    Do you speak Martian? It's ok if you don't, I speak English too.
                     Don't be shy! Hit me up! 👇
                   </p>
                 </div>

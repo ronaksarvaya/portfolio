@@ -1,34 +1,33 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Skill {
   _id: string;
   name: string;
   category: string;
-  proficiency?: number;
-  icon?: string;
 }
 
 export default function SkillsSection() {
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await fetch('/api/skills');
-        const data = await response.json();
-        setSkills(data);
-      } catch (error) {
-        console.error('Failed to fetch skills:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSkills();
-  }, []);
+  // Hardcoded skills data instead of fetching from API
+  const skills: Skill[] = [
+    { _id: '1', name: 'HTML', category: 'Frontend' },
+    { _id: '2', name: 'CSS', category: 'Frontend' },
+    { _id: '3', name: 'JavaScript', category: 'Frontend' },
+    { _id: '4', name: 'React', category: 'Frontend' },
+    { _id: '5', name: 'Next.js', category: 'Frontend' },
+    { _id: '6', name: 'TailwindCSS', category: 'Frontend' },
+    { _id: '7', name: 'Node.js', category: 'Backend' },
+    { _id: '8', name: 'Express', category: 'Backend' },
+    { _id: '9', name: 'MongoDB', category: 'Backend' },
+    { _id: '10', name: 'SQL', category: 'Backend' },
+    { _id: '11', name: 'Java', category: 'Backend' },
+    { _id: '12', name: 'C++', category: 'Backend' },
+    { _id: '13', name: 'Git', category: 'Tools' },
+    { _id: '14', name: 'GitHub', category: 'Tools' },
+    { _id: '15', name: 'VS Code', category: 'Tools' },
+    { _id: '16', name: 'Postman', category: 'Tools' },
+  ];
 
   // Group skills by category
   const groupedSkills = skills.reduce((acc, skill) => {
@@ -40,13 +39,12 @@ export default function SkillsSection() {
     return acc;
   }, {} as Record<string, Skill[]>);
 
-  // Define category order/colors if needed, or just iterate
+  // Define category order/colors
   const categoryColors: Record<string, string> = {
     'Frontend': '#667eea',
     'Backend': '#764ba2',
     'Tools': '#667eea',
     'Other': '#764ba2',
-    // Fallbacks
   };
 
   return (
@@ -63,35 +61,31 @@ export default function SkillsSection() {
             </h2>
           </div>
 
-          {loading ? (
-            <div className="text-center text-gray-400">Loading skills...</div>
-          ) : (
-            Object.entries(groupedSkills).map(([category, categorySkills]) => (
-              <div key={category} className="mb-4 sm:mb-6">
-                <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">{category}</h3>
-                <div className="flex flex-wrap gap-2 sm:gap-3">
-                  {categorySkills.map((skill) => (
-                    <span
-                      key={skill._id}
-                      className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 bg-transparent hover:text-white transition-all duration-300 cursor-pointer font-medium`}
-                      style={{
-                        borderColor: categoryColors[category] || '#667eea',
-                        color: categoryColors[category] || '#667eea',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = categoryColors[category] || '#667eea';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
+          {Object.entries(groupedSkills).map(([category, categorySkills]) => (
+            <div key={category} className="mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-[#9CDCFE] mb-3">{category}</h3>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                {categorySkills.map((skill) => (
+                  <span
+                    key={skill._id}
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full border-2 bg-transparent hover:text-white transition-all duration-300 cursor-pointer font-medium`}
+                    style={{
+                      borderColor: categoryColors[category] || '#667eea',
+                      color: categoryColors[category] || '#667eea',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = categoryColors[category] || '#667eea';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    {skill.name}
+                  </span>
+                ))}
               </div>
-            ))
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </section>

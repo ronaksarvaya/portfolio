@@ -17,7 +17,7 @@ POV- A die hard Marvel Fan`;
   // Intersection Observer to detect when section is in view
   useEffect(() => {
     const currentSection = sectionRef.current;
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -78,7 +78,7 @@ POV- A die hard Marvel Fan`;
             className="object-contain rounded-2xl w-full max-w-[250px] sm:max-w-[300px] h-auto"
           />
         </div>
-        
+
         {/* Right Side - Terminal About */}
         <div className="about-right flex-1 w-full">
           <div className="bg-[#1e1e1e] rounded-lg shadow-2xl overflow-hidden border border-gray-700">
@@ -91,7 +91,7 @@ POV- A die hard Marvel Fan`;
               </div>
               <span className="text-gray-400 text-sm ml-4 font-mono">about.txt</span>
             </div>
-            
+
             {/* Terminal Content */}
             <div className="p-4 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed min-h-[300px] text-gray-300">
               <div className="mb-4">
