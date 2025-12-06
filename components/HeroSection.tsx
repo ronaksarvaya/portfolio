@@ -77,8 +77,10 @@ export default function HeroSection() {
             <Button className="bg-[#667eea] hover:bg-[#5a6fd6] text-white">
               <span className="mr-2">💬</span> Chat with me
             </Button>
-            <Button variant="outline" className="border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 hover:bg-gray-800">
-              <span className="mr-2">📄</span> Download Resume
+            <Button asChild variant="outline" className="border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 hover:bg-gray-800">
+              <a href="https://docs.google.com/document/d/1mtsrYorGH8YM9sFe9weCmZmeZ1l-qM9t/edit#heading=h.xhancsczmj0k" target="_blank" rel="noopener noreferrer">
+                <span className="mr-2">📄</span> Download Resume
+              </a>
             </Button>
           </div>
         </div>
@@ -196,30 +198,30 @@ export default function HeroSection() {
 
               {/* Email Section */}
               <div className="mt-auto space-y-3">
-                 
-                    <span className="text-sm text-gray-400">Email Address</span>
-                    {copied && (
-                      <span className="text-xs text-green-400 flex items-center gap-1">
-                        <Check className="w-3 h-3" /> Copied
-                      </span>
-                    )}
-                 
-                  <div className="w-full flex items-center justify-between gap-2">
-                    <a
-                      href={`mailto:${email}`}
-                      className="text-lg sm:text-xl font-mono text-gray-200 hover:text-[#667eea] transition-colors truncate"
-                    >
-                      {email}
-                    </a>
-                    <button
-                      onClick={handleCopy}
-                      className="p-1 hover:bg-gray-800 rounded-md transition-colors group"
-                      aria-label="Copy email address"
-                    >
-                      <Copy className="w-5 h-5 text-gray-500 group-hover:text-[#667eea] transition-colors" />
-                    </button>
-                  </div>
-                
+
+                <span className="text-sm text-gray-400">Email Address</span>
+                {copied && (
+                  <span className="text-xs text-green-400 flex items-center gap-1">
+                    <Check className="w-3 h-3" /> Copied
+                  </span>
+                )}
+
+                <div className="w-full flex items-center justify-between gap-2">
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-lg sm:text-xl font-mono text-gray-200 hover:text-[#667eea] transition-colors truncate"
+                  >
+                    {email}
+                  </a>
+                  <button
+                    onClick={handleCopy}
+                    className="p-1 hover:bg-gray-800 rounded-md transition-colors group"
+                    aria-label="Copy email address"
+                  >
+                    <Copy className="w-5 h-5 text-gray-500 group-hover:text-[#667eea] transition-colors" />
+                  </button>
+                </div>
+
               </div>
             </div>
           </CardContent>
