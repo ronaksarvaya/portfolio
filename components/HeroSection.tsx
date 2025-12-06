@@ -15,7 +15,7 @@ interface Skill {
 
 export default function HeroSection() {
   const [copied, setCopied] = useState(false);
-  const email = "ronaksarvaya@gmail.com"; // Assuming email based on context, placeholder if unknown
+  const email = "ronaksarvaiya2@gmail.com"; // Assuming email based on context, placeholder if unknown
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);
@@ -57,25 +57,35 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="home" className="min-h-screen flex flex-col justify-center py-6 px-4 sm:px-6 lg:px-8 gap-6 max-w-3xl mx-auto w-full">
+    <section id="home" className="min-h-screen flex flex-col justify-center py-6 px-4 sm:px-6 lg:px-8 gap-8 max-w-4xl mx-auto w-full">
       {/* Intro Block (Name & Image) */}
-      <div className="flex flex-col-reverse lg:flex-row gap-6 items-center w-full justify-between">
+      <div className="flex flex-col-reverse lg:flex-row gap-12 items-center w-full justify-between">
         {/* Left Side - Text */}
-        <div className="flex-1 text-center lg:text-left space-y-3">
-          <h2 className="text-xl sm:text-2xl font-medium text-gray-400">
+        <div className="flex-1 text-center lg:text-left space-y-4">
+          <h2 className="text-lg sm:text-xl font-medium text-gray-400">
             Hello, I'm
           </h2>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-2">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-2">
             Ronak Sarvaya
           </h1>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-400 max-w-lg mx-auto lg:mx-0 leading-relaxed">
             A passionate full-stack developer focused on delivering premium, high-performance web app experiences through clean architecture and innovative design.
           </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
+            <Button className="bg-[#667eea] hover:bg-[#5a6fd6] text-white">
+              <span className="mr-2">💬</span> Chat with me
+            </Button>
+            <Button variant="outline" className="border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 hover:bg-gray-800">
+              <span className="mr-2">📄</span> Download Resume
+            </Button>
+          </div>
         </div>
 
         {/* Right Side - Image */}
         <div className="flex-shrink-0">
-          <div className="relative w-[150px] h-[150px] sm:w-[180px] sm:h-[180px]">
+          <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]">
             <div className="absolute inset-0 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-full blur-2xl opacity-30"></div>
             <Image
               src="/ronakimg.png"
@@ -186,27 +196,30 @@ export default function HeroSection() {
 
               {/* Email Section */}
               <div className="mt-auto space-y-3">
-                <div className="p-4 rounded-xl bg-black/20 border border-gray-800">
-                  <div className="flex items-center justify-between mb-2">
+                 
                     <span className="text-sm text-gray-400">Email Address</span>
-                    {copied ? (
+                    {copied && (
                       <span className="text-xs text-green-400 flex items-center gap-1">
                         <Check className="w-3 h-3" /> Copied
                       </span>
-                    ) : (
-                      <span className="text-xs text-gray-500">Click to copy</span>
                     )}
-                  </div>
-                  <button
-                    onClick={handleCopy}
-                    className="w-full text-left flex items-center justify-between group"
-                  >
-                    <span className="text-lg sm:text-xl font-mono text-gray-200 group-hover:text-[#667eea] transition-colors truncate">
+                 
+                  <div className="w-full flex items-center justify-between gap-2">
+                    <a
+                      href={`mailto:${email}`}
+                      className="text-lg sm:text-xl font-mono text-gray-200 hover:text-[#667eea] transition-colors truncate"
+                    >
                       {email}
-                    </span>
-                    <Copy className="w-5 h-5 text-gray-500 group-hover:text-[#667eea] transition-colors" />
-                  </button>
-                </div>
+                    </a>
+                    <button
+                      onClick={handleCopy}
+                      className="p-1 hover:bg-gray-800 rounded-md transition-colors group"
+                      aria-label="Copy email address"
+                    >
+                      <Copy className="w-5 h-5 text-gray-500 group-hover:text-[#667eea] transition-colors" />
+                    </button>
+                  </div>
+                
               </div>
             </div>
           </CardContent>
