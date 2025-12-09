@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Github, Linkedin, Mail, Copy, Check, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, Copy, Check, Twitter, Instagram } from 'lucide-react';
 
 interface Skill {
   _id: string;
@@ -175,11 +175,11 @@ export default function HeroSection() {
                 <Button
                   asChild
                   size="icon"
-                  className="bg-transparent border border-gray-700 text-gray-400 hover:text-white hover:bg-[#1DA1F2] hover:border-[#1DA1F2] w-12 h-12 rounded-lg transition-all duration-300"
-                  aria-label="Twitter"
+                  className="bg-transparent border border-gray-700 text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045] hover:border-transparent w-12 h-12 rounded-lg transition-all duration-300"
+                  aria-label="Instagram"
                 >
-                  <a href="#" target="_blank" rel="noopener noreferrer">
-                    <Twitter className="w-6 h-6" />
+                  <a href="https://instagram.com/ronak.sarvaya" target="_blank" rel="noopener noreferrer">
+                    <Instagram className="w-6 h-6" />
                   </a>
                 </Button>
                 <Button
@@ -188,7 +188,7 @@ export default function HeroSection() {
                   className="bg-transparent border border-gray-700 text-gray-400 hover:text-white hover:bg-black hover:border-white w-12 h-12 rounded-lg transition-all duration-300"
                   aria-label="X"
                 >
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a href="https://x.com/Ronaksarvaya" target="_blank" rel="noopener noreferrer">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
