@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaPlus, FaArrowUp, FaArrowDown, FaGripVertical } from 'react-icons/fa';
 import Image from 'next/image';
 
 interface Project {
@@ -14,12 +14,15 @@ interface Project {
     github: string;
     image: string;
     technologies: string[];
+    order?: number;
 }
 
 export default function ProjectsAdmin() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+    const [savingOrder, setSavingOrder] = useState(false);
     const [currentProject, setCurrentProject] = useState<Partial<Project>>({
         title: '',
         description: '',
@@ -42,6 +45,52 @@ export default function ProjectsAdmin() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const saveNewSequence = async (newProjects: Project[]) => {
+        setSavingOrder(true);
+        try {
+            const projectIds = newProjects.map((p) => p._id);
+            await axios.put('/api/projects/reorder', { projectIds });
+            toast.success('Sequence saved');
+        } catch (error) {
+            toast.error('Failed to save sequence');
+            fetchProjects();
+        } finally {
+            setSavingOrder(false);
+        }
+    };
+
+    const moveProject = (index: number, direction: 'up' | 'down') => {
+        const targetIndex = direction === 'up' ? index - 1 : index + 1;
+        if (targetIndex < 0 || targetIndex >= projects.length) return;
+
+        const updated = [...projects];
+        const [movedItem] = updated.splice(index, 1);
+        updated.splice(targetIndex, 0, movedItem);
+
+        setProjects(updated);
+        saveNewSequence(updated);
+    };
+
+    const handleDragStart = (index: number) => {
+        setDraggedIndex(index);
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (dropIndex: number) => {
+        if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+        const updated = [...projects];
+        const [draggedItem] = updated.splice(draggedIndex, 1);
+        updated.splice(dropIndex, 0, draggedItem);
+
+        setProjects(updated);
+        setDraggedIndex(null);
+        saveNewSequence(updated);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -124,7 +173,15 @@ export default function ProjectsAdmin() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-8">Manage Projects</h1>
+            <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold">Manage Projects</h1>
+                    <p className="text-gray-400 text-sm mt-1">Reorder cards using the Up/Down arrows or by dragging cards into position.</p>
+                </div>
+                {savingOrder && (
+                    <span className="text-sm text-[#667eea] animate-pulse font-medium">Saving sequence...</span>
+                )}
+            </div>
 
             {/* Form */}
             <div className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 mb-10">
@@ -136,7 +193,7 @@ export default function ProjectsAdmin() {
                         <input
                             type="text"
                             placeholder="Title"
-                            value={currentProject.title}
+                            value={currentProject.title || ''}
                             onChange={(e) => setCurrentProject({ ...currentProject, title: e.target.value })}
                             className="px-4 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white focus:border-[#667eea] outline-none"
                             required
@@ -157,7 +214,7 @@ export default function ProjectsAdmin() {
                         <input
                             type="text"
                             placeholder="Live URL"
-                            value={currentProject.url}
+                            value={currentProject.url || ''}
                             onChange={(e) => setCurrentProject({ ...currentProject, url: e.target.value })}
                             className="px-4 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white focus:border-[#667eea] outline-none"
                             required
@@ -165,7 +222,7 @@ export default function ProjectsAdmin() {
                         <input
                             type="text"
                             placeholder="GitHub URL"
-                            value={currentProject.github}
+                            value={currentProject.github || ''}
                             onChange={(e) => setCurrentProject({ ...currentProject, github: e.target.value })}
                             className="px-4 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white focus:border-[#667eea] outline-none"
                         />
@@ -173,13 +230,13 @@ export default function ProjectsAdmin() {
                     <input
                         type="text"
                         placeholder="Technologies (comma separated)"
-                        value={currentProject.technologies?.join(', ')}
+                        value={currentProject.technologies?.join(', ') || ''}
                         onChange={handleTechChange}
                         className="w-full px-4 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white focus:border-[#667eea] outline-none"
                     />
                     <textarea
                         placeholder="Description"
-                        value={currentProject.description}
+                        value={currentProject.description || ''}
                         onChange={(e) => setCurrentProject({ ...currentProject, description: e.target.value })}
                         className="w-full px-4 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white focus:border-[#667eea] outline-none h-32"
                         required
@@ -207,8 +264,45 @@ export default function ProjectsAdmin() {
 
             {/* List */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {projects.map((project) => (
-                    <div key={project._id} className="bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 group">
+                {projects.map((project, index) => (
+                    <div
+                        key={project._id}
+                        draggable
+                        onDragStart={() => handleDragStart(index)}
+                        onDragOver={handleDragOver}
+                        onDrop={() => handleDrop(index)}
+                        className={`bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 group relative transition-all duration-200 ${
+                            draggedIndex === index ? 'opacity-40 scale-95 border-dashed border-[#667eea]' : 'hover:border-gray-700'
+                        }`}
+                    >
+                        {/* Sequence badge & Drag Handle */}
+                        <div className="absolute top-3 left-3 z-10 flex items-center gap-2 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-md text-xs font-semibold text-white border border-gray-700/50">
+                            <FaGripVertical className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-white" title="Drag to reorder" />
+                            <span>#{index + 1}</span>
+                        </div>
+
+                        {/* Reorder Buttons (Up / Down) */}
+                        <div className="absolute top-3 right-3 z-10 flex gap-1 bg-black/70 backdrop-blur-md p-1 rounded-md border border-gray-700/50">
+                            <button
+                                type="button"
+                                onClick={() => moveProject(index, 'up')}
+                                disabled={index === 0}
+                                className="p-1 text-gray-300 hover:text-white disabled:opacity-30 disabled:hover:text-gray-300 transition-colors"
+                                title="Move up in sequence"
+                            >
+                                <FaArrowUp className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => moveProject(index, 'down')}
+                                disabled={index === projects.length - 1}
+                                className="p-1 text-gray-300 hover:text-white disabled:opacity-30 disabled:hover:text-gray-300 transition-colors"
+                                title="Move down in sequence"
+                            >
+                                <FaArrowDown className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
+
                         <div className="relative h-48">
                             <Image
                                 src={project.image}
@@ -220,19 +314,24 @@ export default function ProjectsAdmin() {
                         <div className="p-4">
                             <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
                             <p className="text-gray-400 text-sm mb-4 line-clamp-2">{project.description}</p>
-                            <div className="flex justify-end gap-3">
-                                <button
-                                    onClick={() => handleEdit(project)}
-                                    className="p-2 text-[#667eea] hover:bg-[#667eea]/10 rounded-lg transition-colors"
-                                >
-                                    <FaEdit />
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(project._id)}
-                                    className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
-                                >
-                                    <FaTrash />
-                                </button>
+                            <div className="flex justify-between items-center pt-2 border-t border-gray-800">
+                                <span className="text-xs text-gray-500 font-mono">Order Index: {project.order ?? index}</span>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => handleEdit(project)}
+                                        className="p-2 text-[#667eea] hover:bg-[#667eea]/10 rounded-lg transition-colors"
+                                        title="Edit project"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(project._id)}
+                                        className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                                        title="Delete project"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

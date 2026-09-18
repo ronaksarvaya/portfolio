@@ -39,9 +39,14 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-white">
             <Toaster position="top-right" />
             <div className="w-full max-w-md p-8 bg-[#1a1a1a] rounded-xl border border-gray-800 shadow-2xl">
-                <h1 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold mb-4 text-center bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
                     Admin Login
                 </h1>
+
+                <div className="mb-6 p-3 bg-purple-900/30 border border-purple-700/50 rounded-lg text-xs text-purple-200 text-center">
+                    <p className="font-semibold">Default Dev Credentials:</p>
+                    <p className="mt-1">Username: <code className="bg-black/40 px-1 py-0.5 rounded text-white font-mono">admin</code> | Password: <code className="bg-black/40 px-1 py-0.5 rounded text-white font-mono">admin123</code></p>
+                </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>

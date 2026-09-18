@@ -7,6 +7,7 @@ export interface IProject extends Document {
     github?: string;
     image: string;
     technologies: string[];
+    order: number;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -19,6 +20,7 @@ const ProjectSchema = new Schema<IProject>(
         github: { type: String },
         image: { type: String, required: true },
         technologies: [{ type: String }],
+        order: { type: Number, default: 0 },
     },
     { timestamps: true }
 );
